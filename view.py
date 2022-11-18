@@ -61,6 +61,11 @@ class Render():
                         self.colors_decode[table[i][j]],
                         (j * self.size, (i - self.invisible_rows) * self.size,
                          self.size, self.size))
+                    pygame.draw.rect(
+                        self.canvas,
+                        self.colors_decode[0],
+                        (j * self.size, (i - self.invisible_rows) * self.size,
+                         self.size, self.size), 1)
         pygame.display.update()
 
 
