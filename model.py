@@ -22,6 +22,7 @@ class Table():
         self.rows = rows + 2
         self.columns = columns
         self.table = self.create_table()
+        self.mark_set = set()
 
     def create_table(self):
         return np.zeros(self.rows * self.columns, np.int32).reshape(
@@ -29,6 +30,96 @@ class Table():
 
     def __str__(self):
         return str(self.table)
+
+    def mark_to_erase(self, list_to_mark):
+        pass
+
+    def look_for_three_of_more(self, y_index, x_index, y, x):
+        print("found similar", self.table[y][x], "at", y_index, x_index,
+              y, x)
+        list_to_destroy = [(y_index, x_index)]
+        print("list_to_destroy =", list_to_destroy)
+        value = self.table[y][x]
+        y_var = y
+        y_step = y_index - y
+        x_var = x
+        x_step = x_index - x
+        while (0 <= y_var < self.rows and 0 <= x_var < self.columns and
+               self.table[y_var][x_var] == value):
+            if 0 <= y_var < self.rows and 0 <= x_var < self.columns:
+                if (y_var, x_var) not in list_to_destroy:
+                    list_to_destroy.append((y_var, x_var))
+                y_var += y_step
+                x_var += x_step
+            print(list_to_destroy)
+        else:
+            y_var = y
+            y_step = -y_step
+            x_var = x
+            x_step = -x_step
+            while (0 <= y_var < self.rows and 0 <= x_var < self.columns and
+                   self.table[y_var][x_var] == value):
+                if 0 <= y_var < self.rows and 0 <= x_var < self.columns:
+                    if (y_var, x_var) not in list_to_destroy:
+                        list_to_destroy.append((y_var, x_var))
+                    y_var += y_step
+                    x_var += x_step
+
+                print(list_to_destroy)
+        if len(list_to_destroy) >= 3:
+            for cell in list_to_destroy:
+                self.mark_set.add(cell)
+
+
+
+
+    def check_cell(self, y_index, x_index):
+        '''
+        We check all neighbors cells of cell which is getted as method
+        parameters. If value in one is equal to getted we send those
+        two cells into look_for_three_of_more method.
+        '''
+        value = self.table[y_index][x_index]
+        print("checking cell", y_index, x_index, "with value",
+              self.table[y_index][x_index])
+        for y in range(y_index - 1, y_index + 2):
+            for x in range(x_index - 1, x_index + 2):
+                if 0 <= y < self.rows and 0 <= x < self.columns:
+                    if y == y_index and x == x_index:
+                        'pass middle cell'
+                    else:
+                        print("comparing with cell", y, x, "with value",
+                              self.table[y][x])
+                        if value == self.table[y][x]:
+                            self.look_for_three_of_more(y_index, x_index, y, x)
+
+    def erase_cell(self, y_index, x_index):
+        while self.table[y_index][x_index] != 0:
+            self.table[y_index][x_index] = self.table[y_index - 1][x_index]
+            y_index -= 1
+            print(self.table)
+            print()
+
+    def collapse_similar(self):
+        '''
+        we check all not zero cells
+        '''
+        self.mark_set = set()
+        for y_index in range(2, self.rows):
+            for x_index in range(self.columns):
+                if self.table[y_index][x_index]:
+                    self.check_cell(y_index, x_index)
+                    # fill self.mark_set with cells to erase
+        print("mark_set =", self.mark_set)
+        mark_list = list(self.mark_set)
+        mark_list.sort(key=lambda x: x[0], reverse=True)
+        print(mark_list)
+        while mark_list:
+            cell_y, cell_x = mark_list.pop()
+            print("need to erase", cell_y, cell_x)
+            self.erase_cell(cell_y, cell_x)
+        
+
 
 
 class Stick():

@@ -12,20 +12,7 @@ def put_down(stick, table):
         draw_stick(stick, table)
 
 
-        # y = window_height - size * 3
-        # stick_count = 0
-        # win.fill((0, 0, 0))
-        # stick = Stick(win, size, colors_sequence, x, y)
-        # pygame.display.update()
-        # pygame.time.delay(30)
-
-
 def swich_colors(stick, table):
-    '''
-    result_sequence = color_sequence[:]
-    swiched_color = result_sequence.pop(0)
-    result_sequence.append(swiched_color)
-    '''
     result_sequence = stick.colors[:]
     switched_color = result_sequence.pop(0)
     result_sequence.append(switched_color)
