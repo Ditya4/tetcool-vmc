@@ -29,8 +29,8 @@ while not done:
             done = True
 
     if stick_count == 0:
-        # comment next line
         print("\ntable before collapse\n", table)
+        # comment next line
         table.collapse_similar()
         stick = model.Stick()
         print("\nnext stick colors =", stick.colors)

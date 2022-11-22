@@ -71,11 +71,20 @@ def add_stick(stick, table):
 
 
 def draw_stick(stick, table):
+    '''
+    we check if there is empty lower cell or lower cell is out of table
+    indexes then we not draw stick and return 0
+    else we draw stick
+    '''
     print("call control.draw_stick")
-    print(stick.y_index + 3, stick.x_index)
-    if (stick.y_index + 3 < table.rows and
-            table.table[stick.y_index + 2][stick.x_index] != 0) or (
-            stick.y_index + 3 > table.rows):
+    print(">>>>>>>>>>stick.y_index+3 =", stick.y_index + 3, stick.x_index,
+          table.table[stick.y_index + 2][stick.x_index])
+    print("table.rows =", table.rows)
+
+    if stick.y_index + 2 >= table.rows:  #  and
+            # table.table[stick.y_index + 2][stick.x_index] != 0) or (
+            # table.table[stick.y_index + 3][stick.x_index] != 0) or (
+            # stick.y_index + 3 > table.rows):
         return 0
     color_index = 0
     for y_index in range(stick.y_index, stick.y_index + 3):
@@ -90,11 +99,33 @@ def erase_old_y(stick_old_y, stick, table):
 
 
 def move_down(stick, table):
+    
     print("call control.move_down")
     stick_old_y = stick.y_index
-    stick.y_index += 1
-    if not draw_stick(stick, table):
+    if (stick.y_index + 3 < table.rows and
+            table.table[stick.y_index + 3][stick.x_index] == 0):
+        stick.y_index += 1
+        if not draw_stick(stick, table):
+            return 0
+        erase_old_y(stick_old_y, stick, table)
+    else:
         return 0
-    erase_old_y(stick_old_y, stick, table)
+
     print("in move down", table, stick.colors, "\n")
     return 1
+    '''
+    print("call control.move_down")
+    stick_old_y = stick.y_index
+    if (stick.y_index + 4 < table.rows and
+            table.table[stick.y_index + 4][stick.x_index] == 0):
+        stick.y_index += 1
+        if not draw_stick(stick, table):
+            return 0
+        erase_old_y(stick_old_y, stick, table)
+    else:
+        return 0
+
+    print("in move down", table, stick.colors, "\n")
+    return 1
+    '''
+

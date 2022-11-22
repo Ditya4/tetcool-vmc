@@ -25,8 +25,10 @@ class Table():
         self.mark_set = set()
 
     def create_table(self):
-        return np.zeros(self.rows * self.columns, np.int32).reshape(
+        result = np.zeros(self.rows * self.columns, np.int32).reshape(
                         self.rows, self.columns)
+        result[self.rows - 1] = np.ones(self.columns, np.int32)
+        return result
 
     def __str__(self):
         '''
