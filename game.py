@@ -9,7 +9,7 @@ rows = 15
 columns = 11
 size = 40
 delta_t = 1
-time_delay = 30
+time_delay = 1
 button_press_delta = 0.2
 done = False
 stick_count = 0
@@ -29,8 +29,11 @@ while not done:
             done = True
 
     if stick_count == 0:
+        # comment next line
+        print("\ntable before collapse\n", table)
         table.collapse_similar()
         stick = model.Stick()
+        print("\nnext stick colors =", stick.colors)
         if not control.add_stick(stick, table):
             print("Game Over.")
             done = True
@@ -44,7 +47,8 @@ while not done:
 
     # pause simulation
     if keys[pygame.K_p]:
-        sleep(120)
+        # sleep(12000)
+        input()
 
     if keys[pygame.K_LEFT]:
         if not left_button_pressed:
@@ -97,7 +101,7 @@ while not done:
         if down_button_pressed:
             down_button_pressed_time = (
                 time() - down_button_pressed_time_start)
-            if down_button_pressed_time > button_press_delta:
+            if down_button_pressed_time > button_press_delta * 3:
                 control.put_down(stick, table)
                 down_button_pressed_time_start = time()
     else:
@@ -106,4 +110,4 @@ while not done:
     render(table.table)
     pygame.time.delay(time_delay)
 
-print(table)
+# print(table)
