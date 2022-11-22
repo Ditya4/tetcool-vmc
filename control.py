@@ -99,7 +99,7 @@ def erase_old_y(stick_old_y, stick, table):
 
 
 def move_down(stick, table):
-    
+
     print("call control.move_down")
     stick_old_y = stick.y_index
     if (stick.y_index + 3 < table.rows and
@@ -113,19 +113,3 @@ def move_down(stick, table):
 
     print("in move down", table, stick.colors, "\n")
     return 1
-    '''
-    print("call control.move_down")
-    stick_old_y = stick.y_index
-    if (stick.y_index + 4 < table.rows and
-            table.table[stick.y_index + 4][stick.x_index] == 0):
-        stick.y_index += 1
-        if not draw_stick(stick, table):
-            return 0
-        erase_old_y(stick_old_y, stick, table)
-    else:
-        return 0
-
-    print("in move down", table, stick.colors, "\n")
-    return 1
-    '''
-

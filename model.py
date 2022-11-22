@@ -120,22 +120,30 @@ class Table():
         '''
         we check all not zero cells
         '''
-        self.mark_set = set()
-        for y_index in range(2, self.rows):
-            for x_index in range(self.columns):
-                print("table", y_index, x_index, "=",
-                      self.table[y_index][x_index])
-                if self.table[y_index][x_index]:
-                    self.check_cell(y_index, x_index)
-                    # fill self.mark_set with cells to erase
-        print("mark_set =", self.mark_set)
-        mark_list = list(self.mark_set)
-        mark_list.sort(key=lambda x: x[0], reverse=True)
-        print("mark_list.sorted =", mark_list)
-        while mark_list:
-            cell_y, cell_x = mark_list.pop()
-            print("need to erase", cell_y, cell_x)
-            self.erase_cell(cell_y, cell_x)
+        recheck_flag = True
+        while recheck_flag:
+            self.mark_set = set()
+            for y_index in range(2, self.rows):
+                for x_index in range(self.columns):
+                    print("table", y_index, x_index, "=",
+                          self.table[y_index][x_index])
+                    if self.table[y_index][x_index]:
+                        self.check_cell(y_index, x_index)
+                        # fill self.mark_set with cells to erase
+            print("mark_set =", self.mark_set)
+            mark_list = list(self.mark_set)
+            mark_list.sort(key=lambda x: x[0], reverse=True)
+            print("mark_list.sorted =", mark_list)
+
+            if mark_list:
+                recheck_flag = True
+            else:
+                recheck_flag = False
+
+            while mark_list:
+                cell_y, cell_x = mark_list.pop()
+                print("need to erase", cell_y, cell_x)
+                self.erase_cell(cell_y, cell_x)
 
 
 
